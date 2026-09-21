@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#87CEEB" />
+  <title>Te amo mamor &lt;3</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      overflow-x: hidden;
+      font-family: "Segoe Print", "Bradley Hand", "Comic Sans MS", cursive;
+      background: linear-gradient(#78c9ff 0%, #bfe8ff 55%, #e9f9ff 100%);
+      color: #2f2a1f;
+    }
+
+    body {
+      min-height: 100svh;
+    }
+
+    .scene {
+      position: relative;
+      min-height: 100svh;
+      width: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: max(22px, env(safe-area-inset-top)) 16px
+               max(28px, env(safe-area-inset-bottom));
+    }
+
+    .sun {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: #ffe86a;
+      top: 26px;
+      right: 22px;
+      box-shadow: 0 0 28px rgba(255, 232, 106, .8);
+      opacity: .9;
+    }
+
+    .cloud {
+      position: absolute;
+      width: 120px;
+      height: 35px;
+      background: rgba(255,255,255,.78);
+      border-radius: 40px;
+      filter: blur(.1px);
+      animation: cloudMove 20s linear infinite;
+    }
+
+    .cloud::before,
+    .cloud::after {
+      content: "";
+      position: absolute;
+      background: inherit;
+      border-radius: 50%;
+    }
+
+    .cloud::before {
+      width: 54px;
+      height: 54px;
+      left: 18px;
+      top: -26px;
+    }
+
+    .cloud::after {
+      width: 68px;
+      height: 68px;
+      right: 12px;
+      top: -34px;
+    }
+
+    .c1 { top: 120px; left: -130px; }
+    .c2 { top: 210px; left: -190px; animation-duration: 27s; transform: scale(.8); opacity: .75; }
+
+    @keyframes cloudMove {
+      from { transform: translateX(0); }
+      to   { transform: translateX(calc(100vw + 340px)); }
+    }
+
+    .message-card {
+      position: relative;
+      z-index: 20;
+      width: min(92vw, 520px);
+      margin-top: 86px;
+      padding: 20px 18px;
+      border-radius: 24px;
+      background: rgba(255,255,255,.78);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 14px 35px rgba(39, 74, 94, .18);
+      text-align: center;
+      border: 1px solid rgba(255,255,255,.9);
+      animation: fadeDown .9s ease both;
+    }
+
+    .message-card h1 {
+      margin: 0 0 10px;
+      font-size: clamp(1.45rem, 5.8vw, 2.1rem);
+      color: #6d4d00;
+    }
+
+    .message-card p {
+      margin: 0;
+      font-size: clamp(1rem, 4.1vw, 1.16rem);
+      line-height: 1.55;
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .field {
+      position: relative;
+      z-index: 8;
+      width: 100%;
+      flex: 1;
+      min-height: 430px;
+      margin-top: 18px;
+    }
+
+    .ground {
+      position: absolute;
+      left: -8%;
+      bottom: -32px;
+      width: 116%;
+      height: 285px;
+      background:
+        radial-gradient(circle at 18% 35%, rgba(110, 202, 91, .30) 0 6%, transparent 7%),
+        radial-gradient(circle at 72% 22%, rgba(116, 210, 92, .22) 0 7%, transparent 8%),
+        radial-gradient(circle at 48% 62%, rgba(22, 111, 50, .22) 0 8%, transparent 9%),
+        linear-gradient(#5dbc50 0%, #328d41 52%, #1f6e35 100%);
+      border-radius: 50% 50% 0 0 / 15% 15% 0 0;
+      box-shadow: inset 0 15px 28px rgba(255,255,255,.13);
+    }
+
+    .grass-blade {
+      position: absolute;
+      bottom: var(--bottom);
+      width: var(--w);
+      height: var(--h);
+      background: linear-gradient(#68cc60, #2b8439 70%, #226f34);
+      border-radius: 80% 80% 8% 8%;
+      transform-origin: bottom;
+      transform: rotate(var(--r));
+      animation: grassSway var(--d) ease-in-out infinite alternate;
+      z-index: var(--z);
+      opacity: var(--o);
+      filter: saturate(.95);
+    }
+
+    .grass-blade::after {
+      content: "";
+      position: absolute;
+      width: 80%;
+      height: 72%;
+      left: 55%;
+      bottom: 0;
+      background: inherit;
+      border-radius: 80% 80% 8% 8%;
+      transform-origin: bottom;
+      transform: rotate(var(--split));
+      opacity: .72;
+    }
+
+    @keyframes grassSway {
+      from { transform: rotate(calc(var(--r) - 5deg)); }
+      to   { transform: rotate(calc(var(--r) + 5deg)); }
+    }
+
+    .flower {
+      position: absolute;
+      bottom: var(--flower-bottom);
+      width: 80px;
+      height: 180px;
+      transform-origin: bottom center;
+      transform: translateX(-50%) scale(0);
+      animation:
+        growFlower 1.65s cubic-bezier(.2,.9,.25,1.2) forwards,
+        flowerSway 3.4s ease-in-out infinite alternate;
+      animation-delay: var(--delay), calc(var(--delay) + 1.65s);
+      z-index: var(--flower-z);
+    }
+
+    @keyframes growFlower {
+      0%   { transform: translateX(-50%) scale(0); opacity: 0; }
+      65%  { opacity: 1; }
+      100% { transform: translateX(-50%) scale(var(--scale)); opacity: 1; }
+    }
+
+    @keyframes flowerSway {
+      from { rotate: -1.7deg; }
+      to   { rotate: 1.7deg; }
+    }
+
+    .stem {
+      position: absolute;
+      width: 9px;
+      height: 112px;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, #2d873c, #55a84a);
+      border-radius: 8px;
+    }
+
+    .leaf {
+      position: absolute;
+      width: 34px;
+      height: 18px;
+      background: #3c9c43;
+      border-radius: 100% 0 100% 0;
+    }
+
+    .leaf.left {
+      left: 10px;
+      bottom: 47px;
+      transform: rotate(26deg);
+    }
+
+    .leaf.right {
+      right: 10px;
+      bottom: 69px;
+      transform: scaleX(-1) rotate(26deg);
+    }
+
+    .flower-head {
+      position: absolute;
+      width: 74px;
+      height: 74px;
+      left: 50%;
+      top: 1px;
+      transform: translateX(-50%);
+      animation: bloom .75s ease-out both;
+      animation-delay: calc(var(--delay) + 1.1s);
+    }
+
+    @keyframes bloom {
+      from { transform: translateX(-50%) scale(.25) rotate(-14deg); opacity: 0; }
+      to   { transform: translateX(-50%) scale(1) rotate(0); opacity: 1; }
+    }
+
+    .petal {
+      position: absolute;
+      width: 23px;
+      height: 38px;
+      left: 25px;
+      top: 18px;
+      background: linear-gradient(#ffd84f, #f4ac16);
+      border-radius: 70% 70% 52% 52%;
+      transform-origin: 11px 19px;
+      box-shadow: inset 0 0 4px rgba(255,255,255,.35);
+    }
+
+    .flower-center {
+      position: absolute;
+      width: 33px;
+      height: 33px;
+      left: 20.5px;
+      top: 20.5px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 35%, #8d5c18 0 11%, transparent 12%),
+        radial-gradient(circle at 65% 40%, #6f4311 0 10%, transparent 11%),
+        radial-gradient(circle at 48% 68%, #6f4311 0 9%, transparent 10%),
+        #5f3b12;
+      box-shadow: 0 2px 4px rgba(0,0,0,.2);
+      z-index: 3;
+    }
+
+    .bee {
+      position: absolute;
+      z-index: 16;
+      font-size: 28px;
+      filter: drop-shadow(0 3px 3px rgba(0,0,0,.18));
+      opacity: 0;
+      animation: beeFly var(--bee-duration) ease-in-out infinite;
+      animation-delay: var(--bee-delay);
+      pointer-events: none;
+    }
+
+    @keyframes beeFly {
+      0%   { opacity: 0; transform: translate(-16px, 32px) rotate(-12deg) scale(.8); }
+      8%   { opacity: 1; }
+      25%  { transform: translate(52px, -15px) rotate(8deg) scale(1); }
+      50%  { transform: translate(5px, -55px) rotate(-8deg) scale(.95); }
+      75%  { transform: translate(-50px, -7px) rotate(8deg) scale(1.05); }
+      92%  { opacity: 1; }
+      100% { opacity: 0; transform: translate(-16px, 32px) rotate(-12deg) scale(.8); }
+    }
+
+    .note-area {
+      position: relative;
+      z-index: 30;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: -64px;
+      padding-bottom: 14px;
+    }
+
+    .note-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 14px 22px;
+      font-size: 1rem;
+      font-weight: 800;
+      color: #5d3d00;
+      background: linear-gradient(135deg, #ffe46b, #ffc93d);
+      box-shadow: 0 8px 22px rgba(97, 74, 0, .24);
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+
+    .note-btn:active {
+      transform: scale(.97);
+      box-shadow: 0 4px 12px rgba(97, 74, 0, .2);
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(16, 32, 39, .45);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .modal.show {
+      display: flex;
+      animation: modalFade .25s ease both;
+    }
+
+    @keyframes modalFade {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .note-card {
+      position: relative;
+      width: min(92vw, 500px);
+      max-height: min(80svh, 620px);
+      overflow-y: auto;
+      padding: 28px 22px 24px;
+      border-radius: 26px;
+      background: #fffdf4;
+      box-shadow: 0 22px 55px rgba(0,0,0,.25);
+      border: 2px solid #ffe27a;
+      animation: pop .35s ease both;
+    }
+
+    @keyframes pop {
+      from { transform: scale(.88) translateY(10px); opacity: 0; }
+      to   { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    .note-card h2 {
+      margin: 0 0 14px;
+      color: #704b00;
+      text-align: center;
+      font-size: 1.45rem;
+    }
+
+    .note-card p {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #453a28;
+    }
+
+    .close {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      width: 38px;
+      height: 38px;
+      border: none;
+      border-radius: 50%;
+      background: #fff1b8;
+      color: #6a4b00;
+      font-size: 1.25rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .signature {
+      display: block;
+      margin-top: 18px;
+      text-align: right;
+      font-weight: 800;
+      color: #735000;
+    }
+
+    .tiny {
+      margin-top: 12px !important;
+      font-size: .9rem !important;
+      text-align: center;
+      color: #8b7c5e !important;
+    }
+
+    @media (max-width: 420px) {
+      .message-card {
+        margin-top: 72px;
+        padding: 18px 15px;
+      }
+
+      .field {
+        min-height: 420px;
+      }
+
+      .flower {
+        width: 72px;
+        height: 170px;
+      }
+
+      .note-area {
+        margin-top: -76px;
+      }
+
+      .sun {
+        width: 80px;
+        height: 80px;
+        top: 20px;
+        right: 14px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  
+    .message-card h1,
+    .note-card h2 {
+      font-family: "Brush Script MT", "Segoe Script", "Lucida Handwriting", cursive;
+      letter-spacing: .4px;
+      font-weight: 700;
+    }
+
+    .message-card p,
+    .note-card p {
+      font-family: "Segoe Print", "Bradley Hand", "Comic Sans MS", cursive;
+    }
+
+    .note-btn {
+      font-family: "Segoe Print", "Bradley Hand", "Comic Sans MS", cursive;
+    }
+
+    .signature {
+      font-family: "Brush Script MT", "Segoe Script", "Lucida Handwriting", cursive;
+      font-size: 1.12rem;
+    }
+
+  </style>
+</head>
+
+<body>
+  <main class="scene">
+    <div class="sun"></div>
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+
+    <section class="message-card">
+      <h1>Para Selena 🌻💛</h1>
+      <p>
+        Aunque no pueda estar cerca de ti ni tener el honor de entregarte estas flores en persona,
+        prefiero esforzarme programándotelas para que no te quedes sin tus flores amarillas.
+        <strong>Te amo mucho, Selena.</strong>
+      </p>
+    </section>
+
+    <section class="field" id="field">
+      <div class="ground"></div>
+    </section>
+
+    <div class="note-area">
+      <button class="note-btn" id="openNote">💌 Toca aquí para leer tu nota</button>
+    </div>
+  </main>
+
+  <div class="modal" id="modal" aria-hidden="true">
+    <article class="note-card">
+      <button class="close" id="closeNote" aria-label="Cerrar">×</button>
+      <h2>Una notita para ti 💛</h2>
+
+      <p>
+        Selena, gracias por estos tres meses y medio que hemos compartido. Tal vez para otras
+        personas parezca poco tiempo, pero para mí ha sido suficiente para guardar muchos momentos,
+        conversaciones y detalles que valoro muchísimo.
+        <br><br>
+        Quería hacerte algo diferente, algo que no fuera solamente comprar y entregar, sino dedicar
+        tiempo a crear. Por eso hice estas flores para ti con código: porque, aunque hoy no pueda
+        ponerte un ramo en las manos, sí puedo dejarte algo hecho con paciencia, cariño y pensando
+        en ti desde el principio hasta el final.
+        <br><br>
+        Gracias por cada momento bonito, por tu tiempo, por las risas, por escucharme y por formar
+        parte de estos meses conmigo. Espero que, cuando veas estos girasoles y estas abejitas,
+        recuerdes que detrás de cada línea de este pequeño regalo hubo una sola intención:
+        hacerte sonreír.
+        <br><br>
+        Feliz día de las flores amarillas, Selena. 🌻💛
+        <span class="signature">Con mucho cariño, Samil</span>
+      </p>
+
+      <p class="tiny">Hecho con código, paciencia y un montón de girasoles 🌻</p>
+    </article>
+  </div>
+
+  <script>
+    const field = document.getElementById("field");
+
+    function makeGrass() {
+      // Dense grass throughout the whole green area, not only along the horizon.
+      const layers = window.innerWidth <= 420 ? 5 : 6;
+      const bladesPerLayer = window.innerWidth <= 420 ? 58 : 82;
+
+      for (let layer = 0; layer < layers; layer++) {
+        const depth = layer / Math.max(1, layers - 1);
+        const baseBottom = 6 + depth * 205;
+
+        for (let i = 0; i < bladesPerLayer; i++) {
+          const blade = document.createElement("span");
+          blade.className = "grass-blade";
+
+          const h = 20 + Math.random() * (34 + depth * 30);
+          const w = 2 + Math.random() * 2.4;
+          const bottom = baseBottom + (Math.random() * 38 - 18);
+
+          blade.style.left = `${-2 + Math.random() * 104}%`;
+          blade.style.setProperty("--bottom", `${bottom}px`);
+          blade.style.setProperty("--h", `${h}px`);
+          blade.style.setProperty("--w", `${w}px`);
+          blade.style.setProperty("--r", `${-18 + Math.random() * 36}deg`);
+          blade.style.setProperty("--split", `${10 + Math.random() * 28}deg`);
+          blade.style.setProperty("--d", `${1.4 + Math.random() * 2.5}s`);
+          blade.style.setProperty("--o", `${0.45 + depth * 0.42 + Math.random() * 0.08}`);
+          blade.style.setProperty("--z", `${7 + layer}`);
+
+          field.appendChild(blade);
+        }
+      }
+    }
+
+    function makeSunflower(x, bottom, delay, scale = 1) {
+      const flower = document.createElement("div");
+      flower.className = "flower";
+      flower.style.left = `${x}%`;
+      flower.style.setProperty("--flower-bottom", `${bottom}px`);
+      flower.style.setProperty("--delay", `${delay}s`);
+      flower.style.setProperty("--scale", scale);
+
+      // Flowers nearer the bottom sit in front of the ones farther back.
+      const z = Math.max(10, 28 - Math.round(bottom / 12));
+      flower.style.setProperty("--flower-z", z);
+
+      const stem = document.createElement("div");
+      stem.className = "stem";
+
+      const leafL = document.createElement("span");
+      leafL.className = "leaf left";
+
+      const leafR = document.createElement("span");
+      leafR.className = "leaf right";
+
+      stem.append(leafL, leafR);
+
+      const head = document.createElement("div");
+      head.className = "flower-head";
+
+      for (let i = 0; i < 12; i++) {
+        const petal = document.createElement("span");
+        petal.className = "petal";
+        petal.style.transform = `rotate(${i * 30}deg) translateY(-22px)`;
+        head.appendChild(petal);
+      }
+
+      const center = document.createElement("div");
+      center.className = "flower-center";
+      head.appendChild(center);
+
+      flower.append(stem, head);
+      field.appendChild(flower);
+
+      setTimeout(() => makeBee(x, bottom, delay + 1.8), (delay + 1.3) * 1000);
+    }
+
+    function makeBee(x, bottom, delay) {
+      const bee = document.createElement("div");
+      bee.className = "bee";
+      bee.textContent = "🐝";
+      bee.style.left = `calc(${x}% - 12px)`;
+      bee.style.bottom = `${bottom + 155 + Math.random() * 55}px`;
+      bee.style.setProperty("--bee-delay", `${Math.max(0, delay - 1.8)}s`);
+      bee.style.setProperty("--bee-duration", `${4.5 + Math.random() * 2.8}s`);
+      field.appendChild(bee);
+    }
+
+    function buildField() {
+      makeGrass();
+
+      const isMobile = window.innerWidth <= 420;
+      const count = isMobile ? 17 : 26;
+
+      // Create flowers in several "rows" so the bottom half feels full and layered.
+      for (let i = 0; i < count; i++) {
+        const row = i % (isMobile ? 4 : 5);
+        const rowBottom = 18 + row * (isMobile ? 42 : 38);
+
+        // Spread them across the width with slight randomness.
+        const section = 100 / count;
+        let x = section * i + section / 2 + (Math.random() * section * 1.25 - section * 0.625);
+        x = Math.max(4, Math.min(96, x));
+
+        const bottom = rowBottom + Math.random() * 20;
+        const depthScale = 1.12 - row * 0.09;
+        const scale = Math.max(.58, depthScale * (.82 + Math.random() * .28));
+        const delay = 0.08 * i + Math.random() * .55;
+
+        makeSunflower(x, bottom, delay, scale);
+      }
+    }
+
+    const modal = document.getElementById("modal");
+    const openNote = document.getElementById("openNote");
+    const closeNote = document.getElementById("closeNote");
+
+    function openModal() {
+      modal.classList.add("show");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal() {
+      modal.classList.remove("show");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    openNote.addEventListener("click", openModal);
+    closeNote.addEventListener("click", closeModal);
+
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    buildField();
+  </script>
+</body>
+</html>
